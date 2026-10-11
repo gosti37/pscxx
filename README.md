@@ -4,7 +4,7 @@ PSCXX is a simple, one-header-file big C++ wrapper written in C++17 to simply pr
 
 The header contains a single function named **execute()** within the scope of the **pscxx**, the arguments of this function are:
 
-1. **"std::vector<std::string> execution_argv"** -> a vector of command line arguments to execute
+1. **"std::vector\<std::string\> execution_argv"** -> a vector of command line arguments to execute
 2. **"std::string binary_path"** -> the path to the binary you want to execute
 3. **"std::optional<char\*\*> environment"** -> the environment the process will execute with, defaults to "environ" if no arguments for it is passed
 
