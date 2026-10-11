@@ -1,6 +1,0 @@
-[
-{
-  "directory": "/home/gosti/pscxx",
-  "arguments": ["/usr/bin/g++", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-I.", "-DNDEBUG", "-o", "build/.objs/pscxx/linux/x86_64/release/pscxx.cpp.o", "pscxx.cpp"],
-  "file": "pscxx.cpp"
-}]
