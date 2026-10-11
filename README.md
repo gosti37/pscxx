@@ -6,7 +6,7 @@ The header contains a single function named **execute()** within the scope of th
 
 1. **"std::vector<std::string> execution_argv"** -> a vector of command line arguments to execute
 2. **"std::string binary_path"** -> the path to the binary you want to execute
-3. **"std::optional<char**> environment"** -> the environment the process will execute with, defaults to "environ" if no arguments for it is passed
+3. **"std::optional<char\*\*> environment"** -> the environment the process will execute with, defaults to "environ" if no arguments for it is passed
 
 The **execute()** function returns a **PRESULT** struct that contains:
 
