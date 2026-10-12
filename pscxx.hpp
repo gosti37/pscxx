@@ -27,22 +27,15 @@ struct PRESULT
     std::string errStd;
 };
 
-inline PRESULT execute(std::vector<std::string> execution_argv, std::string binary_path, std::optional<char**> environment = environ)
+inline PRESULT execute(std::vector<std::string> execution_argv, std::string binary_path, std::optional<char *const*> environment = static_cast<char *const*>(environ))
 {
     std::vector<char*> argv;
 
-    try
+    for (const auto& arg : execution_argv)
     {
-        for (const auto& arg : execution_argv)
-        {
-            argv.push_back(const_cast<char*>(arg.c_str()));
-        }
-        argv.push_back(nullptr);
+        argv.push_back(const_cast<char*>(arg.c_str()));
     }
-    catch (const std::bad_optional_access& e)
-    {
-        return (PRESULT){1, 0, "", e.what()};
-    }
+    argv.push_back(nullptr);
 
     int pipe_stdout[2];
     int pipe_stderr[2];
@@ -67,8 +60,20 @@ inline PRESULT execute(std::vector<std::string> execution_argv, std::string bina
     posix_spawn_file_actions_addclose(&action, pipe_stderr[1]);
 
     pid_t pid;
+    int statusCode;
 
-    int statusCode = posix_spawn(&pid, binary_path.c_str(), &action, NULL, argv.data(), static_cast<char* const*>(*environment));
+    try 
+    {
+        statusCode = posix_spawn(&pid, binary_path.c_str(), &action, NULL, argv.data(), *environment);
+    }
+    catch (std::bad_optional_access& e) 
+    {
+        close(pipe_stdout[0]);
+        close(pipe_stderr[0]);
+        close(pipe_stdout[1]);
+        close(pipe_stderr[1]);
+        return (PRESULT){1, 0, "", e.what()};
+    }
 
     posix_spawn_file_actions_destroy(&action);
     close(pipe_stdout[1]);
